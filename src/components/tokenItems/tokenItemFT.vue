@@ -5,6 +5,7 @@
   // @ts-ignore
   import { createIcon } from '@download/blockies';
   import alertDialog from 'src/components/alertDialog.vue'
+  import swapDialog from './swapDialog.vue';
   import type { TokenDataFT, bcmrTokenMetadata } from "src/interfaces/interfaces"
   import { queryTotalSupplyFT, queryReservedSupply } from "src/queryChainGraph"
   import { useStore } from 'src/stores/store'
@@ -33,6 +34,7 @@
   const tokenMetaData = ref(undefined as (bcmrTokenMetadata | undefined));
   const totalSupplyFT = ref(undefined as bigint | undefined);
   const reservedSupply = ref(undefined as bigint | undefined);
+  const showSwapDialog = ref(false);
 
   tokenMetaData.value = store.bcmrRegistries?.[tokenData.value.tokenId];
 
@@ -324,6 +326,10 @@
             <img id="authIcon" class="icon" :src="settingsStore.darkMode? 'images/shieldLightGrey.svg' : 'images/shield.svg'">
             <span>auth transfer</span>
           </span>
+          <span v-if="tokenMetaData" @click="showSwapDialog = true" style="white-space: nowrap;" id="swapButton">
+            <img id="swapIcon" class="icon" :src="settingsStore.darkMode? 'images/cauldron-dark.svg' : 'images/cauldron.svg'" style="width: 16px; height: 16px; margin-right: 5px;">
+            <span>swap</span>
+          </span>
           <span @click="store.toggleFavorite(tokenData.tokenId)" style="float:right">
             {{ settingsStore.featuredTokens.includes(tokenData.tokenId) ? "★" : "☆" }} favorite </span>
         </div>
@@ -409,5 +415,9 @@
         </div>
       </div>
     </fieldset>
+
+    <div v-if="tokenMetaData && showSwapDialog">
+      <swapDialog :token-balance="tokenData.amount" :token-id="tokenData.tokenId" :token-metadata="tokenMetaData" @close-dialog="() => showSwapDialog = false"/>
+    </div>
   </div>
 </template>

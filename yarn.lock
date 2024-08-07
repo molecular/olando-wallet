@@ -22,6 +22,11 @@
   resolved "https://registry.npmjs.org/@bitauth/libauth/-/libauth-2.0.0.tgz"
   integrity sha512-wFnQtnJvz7S7jU7fQuBJzRQrVHk46DELd5s8D0F61bW567bKVVfMLbwNPCs12pzVckueQTlLwCS//I9skGI1zg==
 
+"@bitauth/libauth@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@bitauth/libauth/-/libauth-3.0.0.tgz#d88535fc5353d5ecd11db96d9a229e11c06a43d2"
+  integrity sha512-3yoL31XpnhAnf5nDVMFk4xPqebxDwXrgYAwpa31ARJnV5A/eXWlpNYvCd6FTZPFM4VvKfjCBi+jRCrw1hOZ0Jg==
+
 "@bitjson/qr-code@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@bitjson/qr-code/-/qr-code-1.0.2.tgz#a17330a09e6d29490d10eadb7280fdb41a070b03"
@@ -2083,6 +2088,13 @@ caniuse-lite@^1.0.30001565, caniuse-lite@^1.0.30001578:
   version "1.0.30001646"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001646.tgz"
   integrity sha512-dRg00gudiBDDTmUhClSdv3hqRfpbOnU28IpI1T6PBTLWa+kOj0681C8uML3PifYfREuBrVjDGhL3adYpBT6spw==
+
+cashlab@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/cashlab/-/cashlab-0.0.11.tgz#66eddd9034fd73bc217b2cf1e0446423209aba0c"
+  integrity sha512-0R18mOwqtsg6ScEWrCnmoXpnMmh9D3g1XsZVRqx8EnYJz2HVYI3aQz+6/KDetaXX25YUHogfl97Ey+9IWZnh0A==
+  dependencies:
+    "@bitauth/libauth" "^3.0.0"
 
 chalk@^4.0.0, chalk@^4.0.2, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
   version "4.1.2"
