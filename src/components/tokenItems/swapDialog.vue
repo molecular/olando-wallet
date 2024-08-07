@@ -230,7 +230,7 @@
 
 <style scoped>
 .q-card{
-  background: none;
+  background: var(--bg-color);
 }
 .row {
   margin-right: 0px;
