@@ -11,23 +11,6 @@
   const store = useStore();
   const settingsStore = useSettingsStore();
 
-  function tokenIconUri(tokenId: string) {
-    if (tokenId === NATIVE_BCH_TOKEN_ID) {
-      return 'images/bch-icon.png';
-    }
-
-    let tokenIconUri = store.bcmrRegistries?.[tokenId]?.uris?.icon;
-    if (!tokenIconUri) {
-      return null;
-    }
-
-    if (tokenIconUri.startsWith('ipfs://')) {
-      return settingsStore.ipfsGateway + tokenIconUri.slice(7);
-    } else {
-      return tokenIconUri;
-    }
-  }
-
   const props = defineProps<{
     tokenBalance: bigint;
     tokenId: string,
@@ -41,8 +24,8 @@
   const assetB = ref(props.tokenId);
   const amountA = ref("0");
   const amountB = ref("0");
-  const assetAIcon = computed(() => tokenIconUri(assetA.value));
-  const assetBIcon = computed(() => tokenIconUri(assetB.value));
+  const assetAIcon = computed(() => store.tokenIconUrl(assetA.value));
+  const assetBIcon = computed(() => store.tokenIconUrl(assetB.value));
   const decimalsA = computed(() => assetA.value === NATIVE_BCH_TOKEN_ID ? 8 : props.tokenMetadata.token.decimals);
   const decimalsB = computed(() => assetB.value === NATIVE_BCH_TOKEN_ID ? 8 : props.tokenMetadata.token.decimals);
   const swapButtonDisabled = ref(true);
