@@ -14,7 +14,7 @@
   const props = defineProps<{
     tokenBalance: bigint;
     tokenId: string,
-    tokenMetadata: bcmrTokenMetadata,
+    tokenMetadata: bcmrTokenMetadata | undefined,
   }>()
 
   const showIcon = ref(true)
@@ -26,8 +26,8 @@
   const amountB = ref("0");
   const assetAIcon = computed(() => store.tokenIconUrl(assetA.value));
   const assetBIcon = computed(() => store.tokenIconUrl(assetB.value));
-  const decimalsA = computed(() => assetA.value === NATIVE_BCH_TOKEN_ID ? 8 : props.tokenMetadata.token.decimals);
-  const decimalsB = computed(() => assetB.value === NATIVE_BCH_TOKEN_ID ? 8 : props.tokenMetadata.token.decimals);
+  const decimalsA = computed(() => assetA.value === NATIVE_BCH_TOKEN_ID ? 8 : props.tokenMetadata?.token.decimals ?? 0);
+  const decimalsB = computed(() => assetB.value === NATIVE_BCH_TOKEN_ID ? 8 : props.tokenMetadata?.token.decimals ?? 0);
   const swapButtonDisabled = ref(true);
   const tradeProposal = ref(undefined as undefined | TradeProposal);
   const statusMessage = ref(" ");
@@ -69,7 +69,7 @@
         throw Error("Insufficient token balance");
       }
 
-      if (amountAValue > (store.balance?.sat ?? 0)) {
+      if (assetA.value === NATIVE_BCH_TOKEN_ID && amountAValue > (store.balance?.sat ?? 0)) {
         throw Error("Insufficient balance");
       }
 
@@ -201,7 +201,7 @@
 
         <q-card-section>
           <div style="display: flex; justify-content: center;padding-left:20px;padding-right:20px;">
-            <div class="text-h4">Swap {{ tokenMetadata.name }} on Cauldron</div>
+            <div class="text-h4">Swap {{ tokenMetadata?.name || `${tokenId.slice(0, 8)}...${tokenId.slice(64-8)}` }} on Cauldron</div>
           </div>
         </q-card-section>
 

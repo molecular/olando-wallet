@@ -57,10 +57,12 @@
   })
 
   const tokenPrice = ref(0);
-  setTimeout(async () => {
+  const updateTokenPrice = async () => {
     const priceInSat = await store.fetchCurrentTokenPrice(tokenData.value.tokenId);
     tokenPrice.value = await convert(Number(tokenData.value.amount) * priceInSat, "sat", settingsStore.currency);
-  }, 1);
+  };
+  setTimeout(updateTokenPrice, 1);
+  watch(tokenData, updateTokenPrice);
 
   onMounted(() => {
     const icon = createIcon({
@@ -352,7 +354,7 @@
             <img id="authIcon" class="icon" :src="settingsStore.darkMode? 'images/shieldLightGrey.svg' : 'images/shield.svg'">
             <span>auth transfer</span>
           </span>
-          <span v-if="tokenMetaData" @click="showSwapDialog = true" style="white-space: nowrap;" id="swapButton">
+          <span v-if="tokenPrice" @click="showSwapDialog = true" style="white-space: nowrap;" id="swapButton">
             <img id="swapIcon" class="icon" :src="settingsStore.darkMode? 'images/cauldron-dark.svg' : 'images/cauldron.svg'" style="width: 16px; height: 16px; margin-right: 5px;">
             <span>swap</span>
           </span>
@@ -447,7 +449,7 @@
       </div>
     </fieldset>
 
-    <div v-if="tokenMetaData && showSwapDialog">
+    <div v-if="tokenPrice && showSwapDialog">
       <swapDialog :token-balance="tokenData.amount" :token-id="tokenData.tokenId" :token-metadata="tokenMetaData" @close-dialog="() => showSwapDialog = false"/>
     </div>
   </div>
