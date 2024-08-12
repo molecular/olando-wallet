@@ -11,6 +11,8 @@
   import { useStore } from 'src/stores/store'
   import { useSettingsStore } from 'src/stores/settingsStore'
   import { useQuasar } from 'quasar'
+  import QrCodeScanDialog from '../qr/qrCodeScanDialog.vue';
+
   const $q = useQuasar()
   const store = useStore()
   const settingsStore = useSettingsStore()
@@ -35,6 +37,7 @@
   const totalSupplyFT = ref(undefined as bigint | undefined);
   const reservedSupply = ref(undefined as bigint | undefined);
   const showSwapDialog = ref(false);
+  const showQrCodeDialog = ref(false);
 
   tokenMetaData.value = store.bcmrRegistries?.[tokenData.value.tokenId];
 
@@ -286,6 +289,18 @@
       color: "red"
     })
   }
+
+  const qrDecode = (content: string) => {
+    destinationAddr.value = content;
+  }
+  const qrFilter = (content: string) => {
+    const decoded = decodeCashAddress(content);
+    if (typeof decoded === "string" || decoded.prefix !== store.wallet?.networkPrefix || !['p2pkhWithTokens', 'p2shWithTokens'].includes(decoded.type)) {
+      return "Not a tokenaddress on current network";
+    }
+
+    return true;
+  }
 </script>
 
 <template id="token-template">
@@ -382,7 +397,12 @@
           Send these tokens to
           <div class="inputGroup">
             <div class="addressInputFtSend">
-              <input v-model="destinationAddr" id="tokenAddress" placeholder="token address">
+              <div style="display: flex;">
+                <input v-model="destinationAddr" id="tokenAddress" placeholder="token address">
+                <button @click="() => showQrCodeDialog = true" style="padding: 12px">
+                  <img src="images/qrscan.svg" />
+                </button>
+              </div>
             </div>
             <div class="sendTokenAmount">
               <span style="width: 100%; position: relative; ">
@@ -430,5 +450,8 @@
     <div v-if="tokenMetaData && showSwapDialog">
       <swapDialog :token-balance="tokenData.amount" :token-id="tokenData.tokenId" :token-metadata="tokenMetaData" @close-dialog="() => showSwapDialog = false"/>
     </div>
+  </div>
+  <div v-if="showQrCodeDialog">
+    <QrCodeScanDialog @hide="() => showQrCodeDialog = false" @decode="qrDecode" :filter="qrFilter"/>
   </div>
 </template>
