@@ -2,9 +2,22 @@
 <script setup lang="ts">
   import tokenItemNFT from './tokenItems/tokenItemNFT.vue'
   import tokenItemFT from './tokenItems/tokenItemFT.vue'
-  import { useStore } from 'src/stores/store'
+  import { useStore } from '../stores/store'
+  import { useQuasar } from 'quasar'
 
   const store = useStore()
+  const $q = useQuasar()
+
+  function copyToClipboard(copyText: string|undefined){
+    if(!copyText) return
+    navigator.clipboard.writeText(copyText);
+    $q.notify({
+      message: "Copied!",
+      icon: 'info',
+      timeout : 1000,
+      color: "grey-6"
+    })
+  }
 </script>
 
 <template>
@@ -13,7 +26,7 @@
   </div>
   <qr-code id="qrCode" :contents="store.wallet?.tokenaddr" 
     style="display: block; width: 230px; height: 230px; margin: 5px auto 0 auto; background-color: #fff;">
-    <img :src="displayeBchQr? 'images/bch-icon.png':'images/tokenicon.png'" slot="icon" /> <!-- eslint-disable-line -->
+    <img src="images/tokenicon.png" slot="icon" /> <!-- eslint-disable-line -->
   </qr-code>
   <div style="word-break: break-all; text-align: center;">
     <span @click="() => copyToClipboard(store.wallet?.tokenaddr)" style="cursor:pointer;">
