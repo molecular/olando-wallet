@@ -8,6 +8,19 @@
 </script>
 
 <template>
+  <div style="word-break: break-all; text-align: center;">
+    Token receiving address:
+  </div>
+  <qr-code id="qrCode" :contents="store.wallet?.tokenaddr" 
+    style="display: block; width: 230px; height: 230px; margin: 5px auto 0 auto; background-color: #fff;">
+    <img :src="displayeBchQr? 'images/bch-icon.png':'images/tokenicon.png'" slot="icon" /> <!-- eslint-disable-line -->
+  </qr-code>
+  <div style="word-break: break-all; text-align: center;">
+    <span @click="() => copyToClipboard(store.wallet?.tokenaddr)" style="cursor:pointer;">
+      <span class="depositAddr">{{ store.wallet?.tokenaddr ?? "" }}</span>
+      <img class="copyIcon" src="images/copyGrey.svg"> 
+    </span>
+  </div>
   <div v-if="store.nrBcmrRegistries == undefined" style="text-align: center;">Loading tokendata ...</div>
   <div v-if="store.tokenList?.length == 0" style="text-align: center;"> No tokens in this wallet </div>
   <div v-if="store.nrBcmrRegistries != undefined" :key="(store.tokenList?.[0]?.tokenId ?? '') + (store.tokenList?.length ?? 0)">
