@@ -251,7 +251,7 @@
 
 <template>
   <header>
-    <img :src="settingsStore.darkMode? 'images/cc-wallet-logo.png' : 'images/cc-wallet-logo.png'" alt="CC-Wallet: a Bitcoin Cash Community Currency Wallet" style="height: 85px;" >
+    <img :src="settingsStore.darkMode? 'images/cc-wallet-logo.png' : 'images/cc-wallet-logo.png'" alt="CC-Wallet: a Bitcoin Cash Community Currency Wallet" style="height: 65px;" >
     <nav v-if="displayView" style="display: flex; justify-content: center;" class="tabs">
       <div @click="changeView(2)" v-bind:style="displayView == 2 ? {color: 'var(--color-primary'} : ''">Token</div>
       <div @click="changeView(1)" v-bind:style="displayView == 1 ? {color: 'var(--color-primary'} : ''">BCH</div>
