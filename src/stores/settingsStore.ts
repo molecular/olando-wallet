@@ -19,7 +19,7 @@ export const useSettingsStore = defineStore('settingsStore', () => {
   const electrumServerMainnet = ref(defaultElectrumMainnet);
   const chaingraph = ref(defaultChaingraph);
   const ipfsGateway = ref(dafaultIpfsGateway);
-  const darkMode  = ref(false);
+  const darkMode  = ref(true);
   const tokenBurn = ref(false);
   const walletConnect = ref(false);
   const tokenCreation = ref(false);
